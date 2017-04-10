@@ -4,8 +4,19 @@
     <input type="text" v-model="message" v-on:keyup.enter="addtodo">
 
     <ul id="example-1">
-      <li v-for="todo in todos">
+      <li v-for="todo in todos" v-if="!todo.deleted">
         <span>{{ todo.created_at | moment("LLL") }}</span>
+        {{ todo.content }}
+        <button v-on:click="deletedtodo(todo)">Del</button>
+      </li>
+    </ul>
+
+    <hr>
+
+    <h1>Deleteds</h1>
+    <ul id="example-2">
+      <li v-for="todo in todos" v-if="todo.deleted">
+        <span>{{ todo.updated_at | moment("LLL") }}</span>
         {{ todo.content }}
       </li>
     </ul>
@@ -14,7 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+const api = 'http://localhost:3000/todos';
 
 export default {
   name: 'hello',
@@ -29,16 +40,28 @@ export default {
   },
   methods: {
     gettodos() {
-      axios.get('http://localhost:3000/todos')
-      .then((res) => {
-        this.todos = res.data;
+      this.axios.get(`${api}`)
+        .then((res) => {
+          this.todos = res.data;
+        }).catch((err) => {
+          console.log(err);
+        });
+    },
+    addtodo() {
+      this.axios.post(`${api}`, {
+        content: this.message,
+      }).then(() => {
+        this.gettodos();
+        this.message = '';
       }).catch((err) => {
         console.log(err);
       });
     },
-    addtodo() {
-      axios.post('http://localhost:3000/todos', {
-        content: this.message,
+    deletedtodo(todo) {
+      /* eslint-disable dot-notation */
+      this.axios.put(`${api}/${todo['_id']}`, {
+        deleted: true,
+        updated_at: Date.now(),
       }).then(() => {
         this.gettodos();
         this.message = '';
