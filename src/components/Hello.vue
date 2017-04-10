@@ -41,6 +41,7 @@ export default {
         content: this.message,
       }).then(() => {
         this.gettodos();
+        this.message = '';
       }).catch((err) => {
         console.log(err);
       });
