@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Container from '@/components/Container';
 import Todo from '@/components/Todo';
 import User from '@/components/User';
+import Login from '@/components/Login';
 
 Vue.use(Router);
 
@@ -15,6 +16,7 @@ export default new Router({
       children: [
         { path: '', component: Todo },
         { path: '/user', component: User },
+        { path: '/login', component: Login },
       ],
     },
   ],
