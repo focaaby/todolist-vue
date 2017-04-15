@@ -28,7 +28,7 @@
 const api = 'http://localhost:3000/todos';
 
 export default {
-  name: 'hello',
+  name: 'todo',
   data() {
     return {
       message: '',
