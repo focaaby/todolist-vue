@@ -1,15 +1,21 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Hello from '@/components/Hello';
+import Container from '@/components/Container';
+import Todo from '@/components/Todo';
+import User from '@/components/User';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
+    { path: '/', redirect: '/todo' },
     {
-      path: '/',
-      name: 'Hello',
-      component: Hello,
+      path: '/todo',
+      component: Container,
+      children: [
+        { path: '', component: Todo },
+        { path: '/user', component: User },
+      ],
     },
   ],
 });
